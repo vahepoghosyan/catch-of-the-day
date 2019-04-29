@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Header from './Header';
 import Inventory from './Inventory';
 import Order from './Order';
@@ -8,37 +8,49 @@ import Fish from './Fish';
 class App extends Component {
     state = {
         fishes: {},
-        order: {}
+        order: {},
     };
 
     addFish = fish => {
-        const fishes = {...this.state.fishes};
+        const fishes = { ...this.state.fishes };
 
         fishes[`fish${Date.now()}`] = fish;
 
         this.setState({
-            fishes
-        })
+            fishes,
+        });
     };
 
     onLoadSampleFishes = () => {
-        this.setState({fishes: SampleFishes})
+        this.setState({ fishes: SampleFishes });
+    };
+
+    addToOrder = key => {
+        const order = { ...this.state.order };
+        order[key] = order[key] + 1 || 1;
+        this.setState({
+            order,
+        });
     };
 
     render() {
-        console.log(this.state.fishes);
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
-                    <Header/>
+                    <Header />
                     <ul className="fishes">
                         {Object.keys(this.state.fishes).map(key => (
-                            <Fish key={key} details={this.state.fishes[key]}/>
+                            <Fish
+                                key={key}
+                                index={key}
+                                details={this.state.fishes[key]}
+                                addToOrder={this.addToOrder}
+                            />
                         ))}
                     </ul>
                 </div>
-                <Order/>
-                <Inventory addFish={this.addFish} onLoadSampleFishes={this.onLoadSampleFishes}/>
+                <Order fishes={this.state.fishes} order={this.state.order} />
+                <Inventory addFish={this.addFish} onLoadSampleFishes={this.onLoadSampleFishes} />
             </div>
         );
     }
