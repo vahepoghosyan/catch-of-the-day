@@ -361,6 +361,7 @@ header.top h3:after {
 input#fold:not(:checked) ~ #main .catch-of-the-day > * {
   -webkit-transform: none;
           transform: none;
+  overflow-x: hidden;
 }
 label[for="fold"] {
   position: absolute;

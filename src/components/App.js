@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Header from './Header';
 import Inventory from './Inventory';
 import Order from './Order';
@@ -9,7 +9,7 @@ import base from '../base';
 class App extends Component {
     state = {
         fishes: {},
-        order: {}
+        order: {},
     };
 
     componentDidMount() {
@@ -36,17 +36,25 @@ class App extends Component {
     }
 
     addFish = fish => {
-        const fishes = {...this.state.fishes};
+        const fishes = { ...this.state.fishes };
 
         fishes[`fish${Date.now()}`] = fish;
 
         this.setState({
-            fishes
-        })
+            fishes,
+        });
     };
 
     onLoadSampleFishes = () => {
-        this.setState({fishes: SampleFishes})
+        this.setState({ fishes: SampleFishes });
+    };
+
+    addToOrder = key => {
+        const order = { ...this.state.order };
+        order[key] = order[key] + 1 || 1;
+        this.setState({
+            order,
+        });
     };
 
     addToOrder = key => {
@@ -59,7 +67,7 @@ class App extends Component {
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
-                    <Header/>
+                    <Header />
                     <ul className="fishes">
                         {Object.keys(this.state.fishes).map(key => (
                             <Fish
@@ -71,8 +79,8 @@ class App extends Component {
                         ))}
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order}/>
-                <Inventory addFish={this.addFish} onLoadSampleFishes={this.onLoadSampleFishes}/>
+                <Order fishes={this.state.fishes} order={this.state.order} />
+                <Inventory addFish={this.addFish} onLoadSampleFishes={this.onLoadSampleFishes} />
             </div>
         );
     }
