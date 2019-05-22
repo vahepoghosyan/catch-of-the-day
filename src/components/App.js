@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Header from './Header';
 import Inventory from './Inventory';
 import Order from './Order';
@@ -17,7 +17,7 @@ class App extends Component {
 
         const localStorageRef = localStorage.getItem(params.storeId);
 
-        if(localStorageRef){
+        if (localStorageRef) {
             this.setState({order: JSON.parse(localStorageRef)})
         }
 
@@ -36,7 +36,7 @@ class App extends Component {
     }
 
     addFish = fish => {
-        const fishes = { ...this.state.fishes };
+        const fishes = {...this.state.fishes};
 
         fishes[`fish${Date.now()}`] = fish;
 
@@ -45,29 +45,32 @@ class App extends Component {
         });
     };
 
+    updateFish = (key, updatedFish) => {
+        const fishes = {...this.state.fishes};
+        fishes[key] = updatedFish;
+
+        this.setState({
+            fishes
+        })
+    };
+
     onLoadSampleFishes = () => {
-        this.setState({ fishes: SampleFishes });
+        this.setState({fishes: SampleFishes});
     };
 
     addToOrder = key => {
-        const order = { ...this.state.order };
+        const order = {...this.state.order};
         order[key] = order[key] + 1 || 1;
         this.setState({
             order,
         });
     };
 
-    addToOrder = key => {
-        const order = {...this.state.order};
-        order[key] = order[key] + 1 || 1;
-        this.setState({order})
-    };
-
     render() {
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
-                    <Header />
+                    <Header/>
                     <ul className="fishes">
                         {Object.keys(this.state.fishes).map(key => (
                             <Fish
@@ -79,8 +82,12 @@ class App extends Component {
                         ))}
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order} />
-                <Inventory addFish={this.addFish} onLoadSampleFishes={this.onLoadSampleFishes} />
+                <Order fishes={this.state.fishes} order={this.state.order}/>
+                <Inventory
+                    addFish={this.addFish}
+                    updateFish={this.updateFish}
+                    onLoadSampleFishes={this.onLoadSampleFishes}
+                    fishes={this.state.fishes}/>
             </div>
         );
     }
